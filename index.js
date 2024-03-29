@@ -1,6 +1,8 @@
 // 텍스트 파일 경로 (워프캐스트 주소)
 const arr = require('fs').readFileSync('./links.txt').toString().split('\n');
 
+const USER_NAME = 'your_user_name'; // 본인 닉네임(fname) 입력
+const ADDRESS = 'your_wallet_address'; // 연결된 지갑주소 입력
 
 // 요청보낼 API 주소
 const USE_POINT_URL = `https://www.degen.tips/api/airdrop2/season2/points?address=${ADDRESS}`;
