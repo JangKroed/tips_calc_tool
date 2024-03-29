@@ -1,4 +1,4 @@
-// 텍스트 파일 경로
+// 텍스트 파일 경로 (워프캐스트 주소)
 const arr = require('fs').readFileSync('./links.txt').toString().split('\n');
 
 
@@ -43,16 +43,18 @@ const tmpHash = {};
   const { points: My_Point } = await responseToJson(USE_POINT_URL);
   const { user_rank, tip_allowance, remaining_allowance } = await responseToJson(USE_TIP_URL);
 
-  console.log(`Tip per 1 person: ${Math.floor(Number(tip_allowance) / cnt)} $DEGEN`);
+  console.log(`인당 팁: ${Math.floor(Number(tip_allowance) / cnt)} $DEGEN`);
 
   console.log('//////////////////////////////////////////////////////////////');
 
-  console.log({ My_Point });
-  console.log({ user_rank });
-  console.log({ tip_allowance });
-  console.log({ remaining_allowance });
+  console.log(`미션할 대상의 수: ${cnt}`);
+  console.log(`포인트: ${My_Point}`);
+  console.log(`순위: ${user_rank}`);
+  console.log(`총 팁 할당량: ${tip_allowance}`);
+  console.log(`잔여 팁 양: ${remaining_allowance}`);
 })();
 
+// api 함수 모듈화
 async function responseToJson(url) {
   const response = await fetch(url);
   const json_data = await response.json();
