@@ -1,20 +1,41 @@
+// 텍스트 파일 경로
 const arr = require('fs').readFileSync('./links.txt').toString().split('\n');
 
-const USER_NAME = 'your_user_name';
-const ADDRESS = 'your_wallet_address';
 
+// 요청보낼 API 주소
 const USE_POINT_URL = `https://www.degen.tips/api/airdrop2/season2/points?address=${ADDRESS}`;
 const USE_TIP_URL = `https://www.degen.tips/api/airdrop2/tip-allowance?address=${ADDRESS}`;
-const newArr = [...new Set(arr)];
+
+const tmpHash = {};
 
 (async () => {
-  let cnt = 0;
-  for (const url of newArr) {
+  let cnt = 0; // 미션해야 할 총 인원 수
+
+  for (const url of arr) {
     if (url.includes(USER_NAME)) {
       continue;
     }
+
+    if (tmpHash[url]) {
+      tmpHash[url]++;
+      continue;
+    } else {
+      tmpHash[url] = 1;
+    }
+
     cnt++;
-    console.log(url);
+  }
+
+  console.log('//////////////////////////////////////////////////////////////');
+
+  Object.keys(tmpHash).forEach((url) => console.log(url));
+
+  console.log('//////////////////////////////////////////////////////////////');
+
+  for (const key in tmpHash) {
+    if (tmpHash[key] > 1) {
+      console.log(key);
+    }
   }
 
   console.log('//////////////////////////////////////////////////////////////');
@@ -22,7 +43,7 @@ const newArr = [...new Set(arr)];
   const { points: My_Point } = await responseToJson(USE_POINT_URL);
   const { user_rank, tip_allowance, remaining_allowance } = await responseToJson(USE_TIP_URL);
 
-  console.log(`Tip per 1 person: ${Math.floor(Number(tip_allowance) / cnt)} $degen`);
+  console.log(`Tip per 1 person: ${Math.floor(Number(tip_allowance) / cnt)} $DEGEN`);
 
   console.log('//////////////////////////////////////////////////////////////');
 
